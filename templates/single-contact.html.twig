@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %} {% block title %} View contact {% endblock %} {%
+block content %}
+<div class="card container">
+  <div class="card-header">View contact - {{ contact.id }}</div>
+  <div class="card-body">
+    <ul class="list-group">
+      Contact name:
+      <b>{{ contact.name }}</b>
+      Contact email:
+      <b>{{ contact.email }}</b>
+      Message:
+      <code>{{ contact.message }}</code>
+    </ul>
+  </div>
+  <div class="card-footer">
+    <a href="{{ path('admin') }}">Back to admin page</a>
+  </div>
+</div>
+{% endblock %}

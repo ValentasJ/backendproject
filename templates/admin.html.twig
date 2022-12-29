@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %} {% block title %} Admin Panel {% endblock %} {%
+block body %}
+<div class="card container">
+  <div class="card-header">Contact admin</div>
+  <div class="card-body">
+    <ul class="list-group">
+      {% for contact in contacts %}
+      <li class="list-group-item">
+        <span
+          ><b>{{ contact.id }}</b> {{ contact.name }} (
+          {{ contact.email }} )</span
+        >
+        -
+        <a
+          href="{{ path('view_contact', { id: contact.id }) }}"
+          class="btn btn-primary btn-sm"
+          >View message</a
+        >
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
