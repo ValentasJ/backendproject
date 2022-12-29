@@ -96,6 +96,7 @@ class IndexController extends AbstractController
     #[Route('/admin/contact/{id}', name: 'view_contact')]
     function viewContact(ManagerRegistry $doctrine, $id)
     {
+
         $contactRepository = $doctrine->getManager()->getRepository(Contacts::class);
 
         $contact = $contactRepository->findOneBy(['id' => $id]);
