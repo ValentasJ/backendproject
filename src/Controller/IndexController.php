@@ -47,17 +47,19 @@ class IndexController extends AbstractController
 
         if ($request->isMethod('POST')) {
             $error = null;
-            if (!$clientName || !$clientEmail || !$message) {
+            if (empty(trim($clientName)) || empty(trim($clientEmail)) || empty(trim($message))) {
                 $error = 'Client name, email or message was not set';
+            } else if (!filter_var($clientEmail, FILTER_VALIDATE_EMAIL)) {
+                $error = 'Email is invalid';
             }
-
-            if (strlen($clientEmail) < 3) {
-                $error = 'Email is less than 3 symbols';
-            }
-
             if ($error) {
                 return $this->render('bodycontacts.html.twig', [
-                    'error' => $error
+                    'error' => $error,
+                    'formValues' => [
+                        'clientName' => trim($clientName),
+                        'clientEmail' => trim($clientEmail),
+                        'clientMessage' => trim($message),
+                    ]
                 ]);
             }
 
