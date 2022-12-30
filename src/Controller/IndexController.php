@@ -7,7 +7,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Contacts;
-
+use App\Entity\Items;
+use Symfony\Component\VarDumper\VarDumper;
 
 class IndexController extends AbstractController
 {
@@ -84,7 +85,7 @@ class IndexController extends AbstractController
     }
 
     #[Route('/admin', name: 'admin')]
-    function admin(ManagerRegistry $doctrine)
+    public function admin(ManagerRegistry $doctrine)
     {
         $contactRepository = $doctrine->getManager()->getRepository(Contacts::class);
 
@@ -96,7 +97,7 @@ class IndexController extends AbstractController
     }
 
     #[Route('/admin/contact/{id}', name: 'view_contact')]
-    function viewContact(ManagerRegistry $doctrine, $id)
+    public function viewContact(ManagerRegistry $doctrine, $id)
     {
 
         $contactRepository = $doctrine->getManager()->getRepository(Contacts::class);
@@ -106,5 +107,28 @@ class IndexController extends AbstractController
         return $this->render('single-contact.html.twig', [
             'contact' => $contact
         ]);
+    }
+
+    #[Route('/my-shop', name: 'myshop')]
+    public function showItemList(ManagerRegistry $doctrine)
+    {
+        $itemList = new Items();
+
+        $contactRepository = $doctrine->getManager()->getRepository(Items::class);
+
+        $itemList = $contactRepository->findAll();
+
+        $itemsArray = [];
+
+        foreach ($itemList as $item) {
+            $itemsArray[] = [
+                'id' => $item->getId(),
+                'photoString' => base64_encode(stream_get_contents($item->getPhoto())),
+                'title' => $item->getTitle(),
+                'description' => $item->getDescription(),
+                'price' => $item->getPrice(),
+            ];
+        }
+        return $this->render('myshop.html.twig', ['items' => $itemsArray]);
     }
 }
