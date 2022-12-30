@@ -1,27 +1,25 @@
 {% extends 'base.html.twig' %}{% block title %} E-Shop {% endblock %} {% block
 body %}
-
-<div class="row bg-black text-primary container">
-  {% for item in items %}
-  <div class="col-3">
-    <div class="card">
-      <img
-        class="h-50 w-50"
-        src="data:image/png;base64,{{ item.photoString }}"
-        alt=".."
-      />
-      <div class="card-body">
-        <span> {{ item.id }} </span><br />
-        <h3 class="card-title">{{ item.title }}</h3>
-        <p>{{ item.description }}</p>
-        <p>
-          Rentprice:<b>
-            {{ item.price }}
-          </b>
-        </p>
+<div class="container col my-5">
+  <div class="row bg-black text-primary container">
+    {% for item in items %}
+    <div class="col-3">
+      <div class="card h-75 bg-black border-light text-center">
+        <img
+          class="h-50 w-50 px-1 py-1 rounded"
+          src="data:image/png;base64,{{ item.photoString }}"
+          alt=".."
+        />
+        <div class="card-body">
+          <h3 class="card-title">{{ item.title }}</h3>
+          <p>{{ item.description }}</p>
+          <p>
+            Price:<b> {{ item.price }} </b>
+          </p>
+        </div>
       </div>
     </div>
+    {% endfor %}
   </div>
-  {% endfor %}
 </div>
 {% endblock %}
