@@ -151,7 +151,7 @@ class IndexController extends AbstractController
             $error = 'Title, description, price or quantity was not set';
         }
         if (!empty($photo)) {
-            $photoFile = addslashes(file_get_contents($photo->getPathName()));
+            $photoFile = file_get_contents($photo->getPathName());
         }
 
         if (empty($error)) {
