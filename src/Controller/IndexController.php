@@ -126,10 +126,11 @@ class IndexController extends AbstractController
         foreach ($itemList as $item) {
             $itemsArray[] = [
                 'id' => $item->getId(),
-                'photoString' => base64_encode(stream_get_contents($item->getPhoto())),
+                'photoString' => !empty($item->getPhoto()) ? base64_encode(stream_get_contents($item->getPhoto())) : '',
                 'title' => $item->getTitle(),
                 'description' => $item->getDescription(),
                 'price' => $item->getPrice(),
+                'type' => $item->getPhotoType(),
             ];
         }
         return $this->render('myshop.html.twig', ['items' => $itemsArray]);
@@ -143,20 +144,26 @@ class IndexController extends AbstractController
         $description = $request->request->get('description');
         $price = (float) $request->request->get('price', 0);
         $quantity = (int) $request->request->get('quantity', 0);
-        $photo = $request->request->get('photo');
+        $photo = $request->files->get('photo');
 
         $error = null;
         if (empty(trim($title)) || empty(trim($description)) || empty(trim(($price))) || empty(trim(strval($quantity)))) {
             $error = 'Title, description, price or quantity was not set';
         }
+        if (!empty($photo)) {
+            $photoFile = addslashes(file_get_contents($photo->getPathName()));
+        }
 
         if (empty($error)) {
+
             $newItem = new Items();
             $newItem->setTitle($title);
             $newItem->setDescription($description);
             $newItem->setPrice($price);
             $newItem->setQuantity($quantity);
-            $newItem->setPhoto($photo);
+            $newItem->setPhoto($photoFile);
+            $newItem->setPhotoType($photo->getMimeType());
+
 
             $manager = $doctrine->getManager();
             $manager->persist($newItem);

@@ -7,7 +7,7 @@ body %}
       <div class="card h-75 bg-black border-light text-center">
         <img
           class="h-50 w-50 px-1 py-1 rounded"
-          src="data:image/png;base64,{{ item.photoString }}"
+          src="data:{{ item.type }};base64,{{ item.photoString }}"
           alt=".."
         />
         <div class="card-body">

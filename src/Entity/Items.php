@@ -29,6 +29,9 @@ class Items
     #[ORM\Column]
     private ?int $quantity = null;
 
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $photo_type = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +93,18 @@ class Items
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getPhotoType(): ?string
+    {
+        return $this->photo_type;
+    }
+
+    public function setPhotoType(?string $photo_type): self
+    {
+        $this->photo_type = $photo_type;
 
         return $this;
     }

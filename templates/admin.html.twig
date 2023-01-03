@@ -24,7 +24,12 @@ block body %}
   </div>
   <div class="card col-6 mx-1">
     <div class="card-header">Upload your new items</div>
-    <form class="card-body" method="post" action="">
+    <form
+      class="card-body"
+      method="post"
+      action=""
+      enctype="multipart/form-data"
+    >
       Title:<br />
       <input class="form-control" type="text" name="title" required /><br />
       description:<br />
