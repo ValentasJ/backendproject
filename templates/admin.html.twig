@@ -1,46 +1,46 @@
 {% extends 'base.html.twig' %} {% block title %} Admin Panel {% endblock %} {%
 block body %}
-<div class="card container d-flex">
-  <div class="card-header">Contact admin</div>
-  <div class="card-body">
-    <ul class="list-group">
-      {% for contact in contacts %}
-      <li class="list-group-item">
-        <span
-          ><b>{{ contact.id }}</b> {{ contact.name }} (
-          {{ contact.email }} )</span
-        >
-        -
-        <a
-          href="{{ path('view_contact', { id: contact.id }) }}"
-          class="btn btn-primary btn-sm"
-          >View message</a
-        >
-      </li>
-      {% endfor %}
-    </ul>
+<div class="container d-flex">
+  <div class="card col-6 mx-1">
+    <div class="card-header">Contact admin</div>
+    <div class="card-body">
+      <ul class="list-group">
+        {% for contact in contacts %}
+        <li class="list-group-item">
+          <span
+            ><b>{{ contact.id }}</b> {{ contact.name }} (
+            {{ contact.email }} )</span
+          >
+          -
+          <a
+            href="{{ path('view_contact', { id: contact.id }) }}"
+            class="btn btn-primary btn-sm"
+            >View message</a
+          >
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
-
-  <div class="card-body container">
+  <div class="card col-6 mx-1">
     <div class="card-header">Upload your new items</div>
     <form
+      class="card-body"
       href="{{ path('upload_your_new_items') }}"
       method="post"
       action="/save-new-item"
     >
       Title:<br />
-      <input class="form-control" type="text" name="title" />
-      <br />
+      <input class="form-control" type="text" name="title" /><br />
       description:<br />
-      <input class="form-control" type="text" name="description" />
-      <br />
+      <input class="form-control" type="text" name="description" /><br />
       Price:<br />
-      <input class="form-control" name="price" />
-      <br />
+      <input class="form-control" name="price" /><br />
+      Quantity: <br />
+      <input class="form-control" name="quantity" /><br />
       Photo:<br />
-      <input class="form-control" type="file" name="photo" />
-      <br /><br />
-      <input type="submit" name="save" value="submit" />
+      <input class="form-control" type="file" name="photo" /><br />
+      <input class="btn btn-primary" type="submit" name="save" value="Submit" />
     </form>
   </div>
 </div>

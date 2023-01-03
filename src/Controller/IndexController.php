@@ -134,12 +134,36 @@ class IndexController extends AbstractController
     #[Route('/save-new-item ', name: 'upload_your_new_items')]
     public function saveNewItem(ManagerRegistry $doctrine)
     {
+        $request = Request::createFromGlobals();
+        $title = $request->request->get('title');
+        $description = $request->request->get('description');
+        $price = $request->request->get('price');
+        $quantity = $request->request->get('quantity');
+
+        if ($request->isMethod('POST')) {
+            $error = null;
+            if (empty(trim($title)) || empty(trim($description)) || empty(trim($price)) || empty(trim($quantity))) {
+                $error = 'Title, description or price was not set';
+            }
+            if ($error) {
+                return $this->render('admin.html.twig', [
+                    'error' => $error,
+                    'formValues' => [
+                        'title' => trim($title),
+                        'description' => trim($description),
+                        'price' => trim($price),
+                        'quantity' => trim($quantity),
+                    ]
+                ]);
+            }
+        }
         $newItem = new Items();
 
-        $newItem->setTitle('title');
-        $newItem->setDescription('description');
-        $newItem->setPrice('100.0');
-        $newItem->setPhoto('photo');
+        $newItem->setTitle($title);
+        $newItem->setDescription($description);
+        $newItem->setPrice($price);
+        $newItem->setQuantity($quantity);
+        // $newItem->setPhoto('photo');
 
         $manager = $doctrine->getManager();
 
@@ -148,7 +172,5 @@ class IndexController extends AbstractController
         $manager->flush();
 
         return $this->redirectToRoute('admin');
-
     }
-
 }
