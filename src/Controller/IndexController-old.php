@@ -85,17 +85,11 @@ class IndexController extends AbstractController
     public function admin(ManagerRegistry $doctrine)
     {
         $contactRepository = $doctrine->getManager()->getRepository(Contacts::class);
-        $request = Request::createFromGlobals();
-
-        if ($request->isMethod('POST')) {
-            $error = $this->saveNewItem($doctrine);
-        }
 
         $contacts = $contactRepository->findAll();
 
         return $this->render('admin.html.twig', [
-            'contacts' => $contacts,
-            'error' => $error ?? '',
+            'contacts' => $contacts
         ]);
     }
 
@@ -138,31 +132,36 @@ class IndexController extends AbstractController
     private function saveNewItem(ManagerRegistry $doctrine)
     {
         $request = Request::createFromGlobals();
-
         $title = $request->request->get('title');
         $description = $request->request->get('description');
         $price = (float) $request->request->get('price', 0);
         $quantity = (int) $request->request->get('quantity', 0);
         $photo = $request->request->get('photo');
 
-        $error = null;
-        if (empty(trim($title)) || empty(trim($description)) || empty(trim(($price))) || empty(trim(strval($quantity)))) {
-            $error = 'Title, description, price or quantity was not set';
+        if ($request->isMethod('POST')) {
+            $error = null;
+            if (empty(trim($title)) || empty(trim($description)) || empty(trim(($price))) || empty(trim(strval($quantity)))) {
+                $error = 'Title, description, price and quantity was not set';
+            }
+
+            return $this->redirectToRoute('admin');
+
         }
+        $newItem = new Items();
 
-        if (empty($error)) {
-            $newItem = new Items();
-            $newItem->setTitle($title);
-            $newItem->setDescription($description);
-            $newItem->setPrice($price);
-            $newItem->setQuantity($quantity);
-            $newItem->setPhoto($photo);
+        $newItem->setTitle($title);
+        $newItem->setDescription($description);
+        $newItem->setPrice($price);
+        $newItem->setQuantity($quantity);
+        $newItem->setPhoto($photo);
 
-            $manager = $doctrine->getManager();
-            $manager->persist($newItem);
-            $manager->flush();
-        }
 
-        return $error;
+        $manager = $doctrine->getManager();
+
+        $manager->persist($newItem);
+
+        $manager->flush();
+
+        return $this->redirectToRoute('admin');
     }
 }

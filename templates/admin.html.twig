@@ -24,23 +24,28 @@ block body %}
   </div>
   <div class="card col-6 mx-1">
     <div class="card-header">Upload your new items</div>
-    <form
-      class="card-body"
-      href="{{ path('upload_your_new_items') }}"
-      method="post"
-      action="/save-new-item"
-    >
+    <form class="card-body" method="post" action="">
       Title:<br />
-      <input class="form-control" type="text" name="title" /><br />
+      <input class="form-control" type="text" name="title" required /><br />
       description:<br />
-      <input class="form-control" type="text" name="description" /><br />
+      <input
+        class="form-control"
+        type="text"
+        name="description"
+        required
+      /><br />
       Price:<br />
-      <input class="form-control" name="price" /><br />
+      <input class="form-control" name="price" required /><br />
       Quantity: <br />
-      <input class="form-control" name="quantity" /><br />
+      <input class="form-control" name="quantity" required /><br />
       Photo:<br />
       <input class="form-control" type="file" name="photo" /><br />
       <input class="btn btn-primary" type="submit" name="save" value="Submit" />
+      {% if error is defined and error is not empty %}
+      <div class="alert alert-danger">
+        {{ error }}
+      </div>
+      {% endif %}
     </form>
   </div>
 </div>
