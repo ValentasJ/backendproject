@@ -60,7 +60,6 @@ class IndexController extends AbstractController
                     ]
                 ]);
             }
-
             $contact = new Contacts();
 
             $contact->setEmail($clientEmail);
@@ -68,16 +67,13 @@ class IndexController extends AbstractController
             $contact->setMessage($message);
 
             $manager = $doctrine->getManager();
-
             $manager->persist($contact);
-
             $manager->flush();
 
             $this->addFlash('success', true);
 
             return $this->redirectToRoute('contacts');
         }
-
         return $this->render('bodycontacts.html.twig');
     }
 
@@ -153,7 +149,6 @@ class IndexController extends AbstractController
         if (!empty($photo)) {
             $photoFile = file_get_contents($photo->getPathName());
         }
-
         if (empty($error)) {
 
             $newItem = new Items();
@@ -164,12 +159,10 @@ class IndexController extends AbstractController
             $newItem->setPhoto($photoFile);
             $newItem->setPhotoType($photo->getMimeType());
 
-
             $manager = $doctrine->getManager();
             $manager->persist($newItem);
             $manager->flush();
         }
-
         return $error;
     }
 }
