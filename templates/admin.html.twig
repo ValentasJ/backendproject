@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %} {% block title %} Admin Panel {% endblock %} {%
 block body %}
-<div class="card container">
+<div class="card container d-flex">
   <div class="card-header">Contact admin</div>
   <div class="card-body">
     <ul class="list-group">
@@ -19,6 +19,29 @@ block body %}
       </li>
       {% endfor %}
     </ul>
+  </div>
+
+  <div class="card-body container">
+    <div class="card-header">Upload your new items</div>
+    <form
+      href="{{ path('upload_your_new_items') }}"
+      method="post"
+      action="/save-new-item"
+    >
+      Title:<br />
+      <input class="form-control" type="text" name="title" />
+      <br />
+      description:<br />
+      <input class="form-control" type="text" name="description" />
+      <br />
+      Price:<br />
+      <input class="form-control" name="price" />
+      <br />
+      Photo:<br />
+      <input class="form-control" type="file" name="photo" />
+      <br /><br />
+      <input type="submit" name="save" value="submit" />
+    </form>
   </div>
 </div>
 {% endblock %}

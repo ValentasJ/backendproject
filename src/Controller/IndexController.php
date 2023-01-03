@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Contacts;
 use App\Entity\Items;
-use Symfony\Component\VarDumper\VarDumper;
 
 class IndexController extends AbstractController
 {
@@ -131,4 +130,25 @@ class IndexController extends AbstractController
         }
         return $this->render('myshop.html.twig', ['items' => $itemsArray]);
     }
+
+    #[Route('/save-new-item ', name: 'upload_your_new_items')]
+    public function saveNewItem(ManagerRegistry $doctrine)
+    {
+        $newItem = new Items();
+
+        $newItem->setTitle('title');
+        $newItem->setDescription('description');
+        $newItem->setPrice('100.0');
+        $newItem->setPhoto('photo');
+
+        $manager = $doctrine->getManager();
+
+        $manager->persist($newItem);
+
+        $manager->flush();
+
+        return $this->redirectToRoute('admin');
+
+    }
+
 }
