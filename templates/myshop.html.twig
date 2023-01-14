@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}{% block title %} E-Shop {% endblock %} {% block
 body %}
-<div class="container col my-5">
+<div class="container d-flex col my-5">
   <div class="row bg-black text-primary container">
     {% for item in items %}
-    <div class="col-3">
-      <div class="card h-75 bg-black border-light text-center">
+    <div class="col-3 bg-black border-light text-center">
+      <div class="card">
         <img
           class="h-50 w-50 px-1 py-1 rounded"
           src="data:{{ item.type }};base64,{{ item.photoString }}"
@@ -16,6 +16,7 @@ body %}
           <p>
             Price:<b> {{ item.price }} </b>
           </p>
+          <input class="btn btn-primary" name="AddToCart" type="submit" />
         </div>
       </div>
     </div>

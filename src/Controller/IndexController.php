@@ -165,4 +165,12 @@ class IndexController extends AbstractController
         }
         return $error;
     }
+
+    #[Route('/my-cart', name: 'mycart')]
+
+    public function showMyCart()
+    {
+        return $this->render('mycart.html.twig');
+    }
+
 }
